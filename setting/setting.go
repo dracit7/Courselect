@@ -8,14 +8,24 @@ import (
 
 var config *ini.File
 
-// ServerConfig stores configurations of the http server
+// ServerConfig stores configurations of the http server.
 type ServerConfig struct {
 	Mode string
 	Port int
 }
 
-// Server stores configurations of the server
+// DBConfig stores configurations of the database.
+type DBConfig struct {
+	User     string
+	Password string
+	Database string
+}
+
+// Server stores configurations of the server.
 var Server = &ServerConfig{}
+
+// DB stores configurations of the database.
+var DB = &DBConfig{}
 
 // Setup reads all settings from the config file and
 // load them into structures.
@@ -28,6 +38,7 @@ func Setup(configFile string) {
 	}
 
 	load("server", Server)
+	load("db", DB)
 }
 
 // load loads a section from the config file.

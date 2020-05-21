@@ -8,6 +8,7 @@ require (
 	github.com/gin-gonic/contrib v0.0.0-20191209060500-d6e26eeaa607
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-ini/ini v1.56.0
+	github.com/go-sql-driver/mysql v1.4.1
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/sessions v1.2.0 // indirect
 	github.com/jinzhu/gorm v1.9.12

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/dracit7/Courselect/lib/db"
 	"github.com/dracit7/Courselect/lib/log"
 	"github.com/dracit7/Courselect/router"
 	"github.com/dracit7/Courselect/setting"
@@ -43,8 +44,10 @@ func main() {
 // Start the application
 func Start(configFile string) {
 
+	// Set up each module.
 	setting.Setup(configFile)
-	log.Setup()
+	log.Setup(os.Stdout)
+	db.Setup()
 
 	router := router.Setup()
 	endpoint := fmt.Sprintf(":%d", setting.Server.Port)

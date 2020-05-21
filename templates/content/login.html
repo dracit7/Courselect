@@ -10,11 +10,15 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg" style="font-size: 0.7em;">
+        Please sign in with your <b>student/faculty ID</b> and <b>Password</b>
+        in the unified authentication system of your school
+      </p>
       <form action="/login" method="post">
 
+        <label>ID/Password</label>
         <div class="input-group mb-3">
-          <input type="user" class="form-control" placeholder="UID">
+          <input name="user" class="form-control" placeholder="UID">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fa fa-user"></span>
@@ -22,12 +26,20 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="pw" class="form-control" placeholder="Password">
+          <input type="password" name="pw" class="form-control" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fa fa-lock"></span>
             </div>
           </div>
+        </div>
+        <div class="form-group mb-5">
+          <label>Identity</label>
+          <select name="type" class="form-control">
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+            <option value="admin">Administrator</option>
+          </select>
         </div>
 
         <div class="row">
@@ -43,5 +55,20 @@
 <!-- /.login-box -->
 
 {{template "scripts" .}}
+
+<script>
+  const Toast = Swal.mixin({
+    // toast: true,
+    showConfirmButton: false,
+    timer: 2000
+  });
+
+  {{range .errors}}
+  Toast.fire({
+    type: 'warning',
+    title: '{{ . }}'
+  })
+  {{end}}
+</script>
 
 </body></html>

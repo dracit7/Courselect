@@ -1,7 +1,7 @@
 package log
 
 import (
-	"bytes"
+	"io"
 	"log"
 	"os"
 )
@@ -14,20 +14,12 @@ var (
 	lfatal *log.Logger
 )
 
-// Buffers for each logger.
-var (
-	bufdebug bytes.Buffer
-	bufinfo  bytes.Buffer
-	bufwarn  bytes.Buffer
-	buffatal bytes.Buffer
-)
-
 // Setup sets up the logger.
-func Setup() {
-	ldebug = log.New(&bufdebug, "[DEBUG] ", log.Lshortfile)
-	linfo = log.New(&bufinfo, "[INFO] ", log.Ldate)
-	lwarn = log.New(&bufwarn, "[WARNING] ", log.Ldate)
-	lfatal = log.New(&buffatal, "[ERROR] ", log.Lshortfile)
+func Setup(out io.Writer) {
+	ldebug = log.New(out, "[DEBUG] ", log.Lshortfile)
+	linfo = log.New(out, "[INFO] ", log.LstdFlags)
+	lwarn = log.New(out, "[WARNING] ", log.LstdFlags)
+	lfatal = log.New(out, "[ERROR] ", log.Lshortfile|log.LstdFlags)
 }
 
 // Debug prints debug message with file/line information.

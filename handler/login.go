@@ -41,8 +41,8 @@ func LoginPostHandler(c *gin.Context) {
 	// but failed.
 	if err != nil {
 		log.Warning(fmt.Sprintf(
-			"Failed login attempt: %s %s:%s from %s",
-			usertype, username, password, c.ClientIP(),
+			"Failed login attempt: <%s> user %s from %s",
+			usertype, username, c.ClientIP(),
 		))
 
 		// Tell frontend the type of error, and go nowhere.
@@ -52,13 +52,14 @@ func LoginPostHandler(c *gin.Context) {
 			"errors": sess.Flashes("error"),
 			"info":   sess.Flashes("info"),
 		})
+		sess.Clear()
 		return
 	}
 
 	// If no error occurs, login succeeds.
 	log.Info(fmt.Sprintf(
-		"Succeeded login: %s %s:%s from %s",
-		usertype, username, password, c.ClientIP(),
+		"Succeeded login: <%s> %s from %s",
+		usertype, username, c.ClientIP(),
 	))
 
 	// Save the username of current user to the session.

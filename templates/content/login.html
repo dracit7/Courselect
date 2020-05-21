@@ -1,0 +1,47 @@
+<html>
+
+{{template "head" "Log In"}}
+
+<body class="login-page" data-gr-c-s-loaded="true" style="min-height: 512.398px;">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="/">Cour<b>se</b>lect</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in to start your session</p>
+      <form action="/login" method="post">
+
+        <div class="input-group mb-3">
+          <input type="user" class="form-control" placeholder="UID">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fa fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="pw" class="form-control" placeholder="Password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fa fa-lock"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+{{template "scripts" .}}
+
+</body></html>

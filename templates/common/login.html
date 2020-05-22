@@ -56,19 +56,4 @@
 
 {{template "scripts" .}}
 
-<script>
-  const Toast = Swal.mixin({
-    // toast: true,
-    showConfirmButton: false,
-    timer: 2000
-  });
-
-  {{range .errors}}
-  Toast.fire({
-    type: 'warning',
-    title: '{{ . }}'
-  })
-  {{end}}
-</script>
-
 </body></html>

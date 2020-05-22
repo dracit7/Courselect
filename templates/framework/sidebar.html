@@ -2,76 +2,36 @@
 
 	Active levels:
 
-  1.0 - About
-  2.0 - Toolkit(no page)
-    2.1 - NetDisk
+  1 - Home
 
  -->
 
 {{define "sidebar"}}
-<aside class="main-sidebar sidebar-dark-primary elevation-4" aria-hidden="true">
+<aside class="main-sidebar sidebar-dark-success elevation-4" aria-hidden="true">
 
   <a href="/" class="brand-link">
-    <span class="brand-text title-main"> PERUINA</span>
+    <img src="/static/img/icon.png" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <span class="brand-text font-weight-light">
+      Courselect</span>
   </a>
 
   <div class="sidebar">
-
     <nav class="mt-2">
-
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
-        <li class="nav-item"></li>
         <li class="nav-header">HOME</li>
 
-        {{if eq .active 1.0}}
+        {{if eq .active 1}}
         <li class="nav-item"><a class="nav-link active" href="/home/">
             <i class="nav-icon fa fa-user"></i>
-            <p>About me</p>
+            <p>Personal information</p>
           </a></li>
         {{else}}
         <li class="nav-item"><a class="nav-link" href="/home/">
             <i class="nav-icon fa fa-user"></i>
-            <p>About me</p>
+            <p>Personal information</p>
           </a></li>
         {{end}}
 
-        {{if and (ge .active 2.0) (lt .active 3.0)}}
-        <li class="nav-item has-treeview menu-open" style="height: auto" id="toolkit">
-          <a class="nav-link active" onclick="toggleMenu('toolkit')">
-            {{else}}
-        <li class="nav-item has-treeview" style="height: auto" id="toolkit">
-          <a class="nav-link" onclick="toggleMenu('toolkit')">
-            {{end}}
-            <i class="nav-icon fa fa-archive"></i>
-            <p>ToolKit<i class="fa fa-angle-left right"></i></p>
-          </a>
-          {{if and (ge .active 2.0) (lt .active 3.0)}}
-          <ul class="nav nav-treeview">
-            {{else}}
-            <ul class="nav nav-treeview" style="display: none" id="toolkit-menu">
-              {{end}}
-
-              {{if eq .active 2.1}}
-              <li class="nav-item"><a href="/home/toolkit/netdisk" class="nav-link active">
-                  <i class="nav-icon fa fa-circle-o text-red"></i>
-                  <p>Netdisk</p>
-                </a></li>
-              {{else}}
-              <li class="nav-item"><a href="/home/toolkit/netdisk" class="nav-link">
-                  <i class="nav-icon fa fa-circle-o text-red"></i>
-                  <p>Netdisk</p>
-                </a></li>
-              {{end}}
-
-            </ul>
-        </li>
-
-        <li class="nav-header">BLOG</li>
-        <li class="nav-item"><a href="/blog" class="nav-link">
-            <i class="nav-icon fa fa-comments"></i>
-            <p>Home page</p>
-          </a></li>
       </ul>
 
     </nav>

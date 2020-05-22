@@ -2,7 +2,7 @@
 /* This script sets up tables in the database and
  * should be run by the courselect user like:
  *
- * sudo mysql -u courselect -p < schema.sql
+ * mysql courselect -u courselect -p < schema.sql
  * 
  * Attention: running this script would remove all
  * existing data in your courselect database. */
@@ -36,20 +36,23 @@ create table faculty (
   id       char(10) primary key,
   name     text,
   password text,
-  position enum('Prof', 'Associate Prof', 'Assistant Prof')
+  position enum('教授', '副教授', '讲师'),
+  email    text,
+  phone    text
 );
 
 create table course (
-  id      int primary key auto_increment,
-  name    text,
-  teacher char(10),
-  credit  int,
-  sdate   date,
-  edate   date,
-  day     enum('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'),
-  stime   time,
-  etime   time,
-  valid   enum('Passed', 'Rejected'),
+  id       int primary key auto_increment,
+  name     text,
+  teacher  char(10),
+  credit   int,
+  capacity int,
+  sdate    int,
+  edate    int,
+  day      enum('周一', '周二', '周三', '周四', '周五', '周六', '周日'),
+  stime    time,
+  etime    time,
+  valid    enum('通过', '未通过'),
   foreign key (teacher) references faculty(id)
 );
 

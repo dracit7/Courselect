@@ -24,7 +24,7 @@ func requiredLoggedIn() gin.HandlerFunc {
 			)
 			sess.Save()
 
-			c.Redirect(http.StatusFound, "/login?referer="+c.Request.URL.Path)
+			c.Redirect(http.StatusFound, "/login")
 			return
 		}
 

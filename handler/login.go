@@ -6,6 +6,7 @@ import (
 
 	"github.com/dracit7/Courselect/lib/db"
 	"github.com/dracit7/Courselect/lib/log"
+	"github.com/dracit7/Courselect/setting"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -13,7 +14,11 @@ import (
 
 // LoginHandler handles GET requests to /login.
 func LoginHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "login.html", gin.H{})
+	sess := sessions.Default(c)
+	c.HTML(http.StatusOK, "login.html", gin.H{
+		"errors": sess.Flashes("error"),
+		"info":   sess.Flashes("info"),
+	})
 }
 
 // LoginPostHandler handles POST requests to /login.
@@ -32,7 +37,12 @@ func LoginPostHandler(c *gin.Context) {
 	case "student":
 		err = db.StudentLogin(username, password)
 	case "faculty":
+		err = db.FacultyLogin(username, password)
 	case "admin":
+		if username != setting.Admin.Username ||
+			password != setting.Admin.Password {
+			err = fmt.Errorf("wrong admin username or password")
+		}
 	default:
 		err = fmt.Errorf("identity not specified")
 	}
@@ -52,7 +62,6 @@ func LoginPostHandler(c *gin.Context) {
 			"errors": sess.Flashes("error"),
 			"info":   sess.Flashes("info"),
 		})
-		sess.Clear()
 		return
 	}
 
@@ -65,8 +74,9 @@ func LoginPostHandler(c *gin.Context) {
 	// Save the username of current user to the session.
 	session := sessions.Default(c)
 	session.Set("username", username)
+	session.Set("usertype", usertype)
 	session.Save()
 
 	// Redirect user to the referer.
-	c.Redirect(http.StatusFound, "/home")
+	c.Redirect(http.StatusFound, "/auth/home")
 }

@@ -33,8 +33,16 @@ func Setup() *gin.Engine {
 
 	// All pages should be logged in to access except
 	// the login page and the home page.
-	private := router.Group("/auth")
-	private.Use(requiredLoggedIn())
+	auth := router.Group("/auth")
+	auth.Use(requiredLoggedIn())
+
+	auth.GET("/home", handler.HomeHandler)
+
+	// Services requires login too.
+	service := router.Group("/services")
+	service.Use(requiredLoggedIn())
+
+	service.GET("/logout", handler.LogoutHandler)
 
 	router.GET("/login", handler.LoginHandler)
 	router.POST("/login", handler.LoginPostHandler)

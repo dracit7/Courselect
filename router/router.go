@@ -38,6 +38,17 @@ func Setup() *gin.Engine {
 
 	auth.GET("/home", handler.HomeHandler)
 
+	// Identity-specific pages.
+	stupage := auth.Group("/student")
+	facpage := auth.Group("/faculty")
+	adminpage := auth.Group("/admin")
+
+	stupage.Use(requiredIdentity("student"))
+	facpage.Use(requiredIdentity("faculty"))
+	adminpage.Use(requiredIdentity("admin"))
+
+	adminpage.GET("students", handler.StudentHandler)
+
 	// Services requires login too.
 	service := router.Group("/services")
 	service.Use(requiredLoggedIn())

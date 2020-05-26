@@ -20,7 +20,15 @@
 
     {{ else }}
     <li class="nav-item float-right d-none d-sm-inline-block">
-      <a class="nav-link">Welcome, {{ .username }}!</a>
+      <a class="nav-link">欢迎, {{ .username }}! 你的身份是: 
+        {{if eq .identity 0}}
+          学生
+        {{else if eq .identity 1}}
+          教职工
+        {{else}}
+          管理员
+        {{end}}
+      </a>
     </li>
     {{ end }}
 
@@ -31,11 +39,11 @@
     </li>
     <div id="user" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
       <a href="/auth/home" class="dropdown-item">
-        <p><i class="fa fa-book"></i> My Courses</p>
+        <p><i class="fa fa-book"></i> 我的课程</p>
       </a>
       <div class="dropdown-divider"></div>
       <a href="/services/logout" class="dropdown-item dropdown-footer">
-        Log out</a>
+        切换帐号</a>
     </div>
   </ul>
 

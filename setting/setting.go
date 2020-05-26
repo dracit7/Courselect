@@ -30,6 +30,7 @@ type AdminConfig struct {
 // UIConfig stores configurations of UI.
 type UIConfig struct {
 	Pagesize int
+	Pagenum  int
 }
 
 // Server stores configurations of the server.

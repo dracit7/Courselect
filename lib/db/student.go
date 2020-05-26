@@ -2,6 +2,8 @@ package db
 
 import (
 	"fmt"
+
+	"github.com/dracit7/Courselect/setting"
 )
 
 // Student information table.
@@ -57,4 +59,24 @@ func GetStudent(id string) Student {
 		Select("student.*, major.name as major_name").
 		First(&student)
 	return student
+}
+
+// GetStudents return all students in a page.
+func GetStudents(page int) []Student {
+	var students []Student
+
+	db.Joins("join major on major.id = student.major").
+		Offset(page * setting.UI.Pagesize).
+		Limit(setting.UI.Pagesize).
+		Select("student.*, major.name as major_name").
+		Find(&students)
+	return students
+}
+
+// GetStudentNum return the number of students.
+func GetStudentNum() int {
+	var count int
+
+	db.Table("student").Count(&count)
+	return count
 }

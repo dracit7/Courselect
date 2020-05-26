@@ -4,13 +4,15 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/dracit7/Courselect/setting"
+
 	"github.com/dracit7/Courselect/lib/db"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
-// HomeHandler handles GET requests to /home.
+// HomeHandler handles GET requests to /auth/home.
 func HomeHandler(c *gin.Context) {
 	sess := sessions.Default(c)
 	userid := sess.Get("username")
@@ -25,14 +27,14 @@ func HomeHandler(c *gin.Context) {
 	// Different types of users sees different types of page.
 	switch usertype {
 	case "student":
-		courses := db.GetSelectableCourses(coursepage)
 
 		c.HTML(http.StatusOK, "home_student.html", gin.H{
 			"active":    1,
+			"identity":  tSTUDENT,
 			"username":  db.GetStudentName(userid.(string)),
 			"profile":   db.GetStudent(userid.(string)),
-			"courses":   courses,
-			"coursenum": len(courses),
+			"courses":   []db.Course{},
+			"coursenum": 0, // TODO: Number of selected courses
 		})
 
 	case "faculty":
@@ -40,6 +42,7 @@ func HomeHandler(c *gin.Context) {
 
 		c.HTML(http.StatusOK, "home_faculty.html", gin.H{
 			"active":    1,
+			"identity":  tFACULTY,
 			"username":  db.GetFacultyName(userid.(string)),
 			"profile":   db.GetFaculty(userid.(string)),
 			"courses":   courses,
@@ -47,5 +50,12 @@ func HomeHandler(c *gin.Context) {
 		})
 
 	case "admin":
+
+		c.HTML(http.StatusOK, "dashboard.html", gin.H{
+			"active":   1,
+			"identity": tADMIN,
+			"username": setting.Admin.Username,
+		})
+
 	}
 }

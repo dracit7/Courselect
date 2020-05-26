@@ -1,11 +1,15 @@
 package db
 
+import (
+	"time"
+)
+
 // Request information table.
 type Request struct {
-	ID       string
-	Name     string
-	Password string
-	Position int
+	ID      int
+	Course  int
+	Student string
+	Time    time.Time
 }
 
 // TableName sets the corresponding table name of struct.

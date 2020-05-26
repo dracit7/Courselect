@@ -2,10 +2,8 @@ package db
 
 // Major information table.
 type Major struct {
-	ID       string
-	Name     string
-	Password string
-	Position int
+	ID   int
+	Name string
 }
 
 // TableName sets the corresponding table name of struct.

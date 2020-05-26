@@ -9,7 +9,9 @@ type Faculty struct {
 	ID       string
 	Name     string
 	Password string
-	Position int
+	Position string
+	Email    string
+	Phone    string
 }
 
 // TableName sets the corresponding table name of struct.

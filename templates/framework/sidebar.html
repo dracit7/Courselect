@@ -1,11 +1,3 @@
-<!-- 
-
-	Active levels:
-
-  1 - Home
-
- -->
-
 {{define "sidebar"}}
 <aside class="main-sidebar sidebar-dark-success elevation-4" aria-hidden="true">
 
@@ -18,18 +10,83 @@
   <div class="sidebar">
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-header">HOME</li>
 
-        {{if eq .active 1}}
-        <li class="nav-item"><a class="nav-link active" href="/home/">
-            <i class="nav-icon fa fa-user"></i>
-            <p>Personal information</p>
-          </a></li>
+        <!-- Student -->
+        {{if eq .identity 0}}
+          <li class="nav-header"></li>
+
+          {{if eq .active 1}}
+          <li class="nav-item"><a class="nav-link active" href="/auth/home/">
+              <i class="nav-icon fa fa-user"></i>
+              <p>个人信息页面</p>
+            </a></li>
+          {{else}}
+          <li class="nav-item"><a class="nav-link" href="/auth/home/">
+              <i class="nav-icon fa fa-user"></i>
+              <p></p>
+            </a>个人信息页面</li>
+          {{end}}
+
+        <!-- Faculty -->
+        {{else if eq .identity 1}}
+          <li class="nav-header"></li>
+
+          {{if eq .active 1}}
+          <li class="nav-item"><a class="nav-link active" href="/auth/home/">
+              <i class="nav-icon fa fa-user"></i>
+              <p>个人信息页面</p>
+            </a></li>
+          {{else}}
+          <li class="nav-item"><a class="nav-link" href="/auth/home/">
+              <i class="nav-icon fa fa-user"></i>
+              <p></p>
+            </a>个人信息页面</li>
+          {{end}}
+
+        <!-- Admin -->
         {{else}}
-        <li class="nav-item"><a class="nav-link" href="/home/">
-            <i class="nav-icon fa fa-user"></i>
-            <p>Personal information</p>
-          </a></li>
+          <li class="nav-header"></li>
+
+          <!-- Dashboard -->
+          {{if eq .active 1}}
+          <li class="nav-item"><a class="nav-link active" href="/auth/home/">
+              <i class="nav-icon fa fa-dashboard"></i>
+              <p>数据总览</p>
+            </a></li>
+          {{else}}
+          <li class="nav-item"><a class="nav-link" href="/auth/home/">
+              <i class="nav-icon fa fa-dashboard"></i>
+              <p>数据总览</p>
+            </a></li>
+          {{end}}
+
+          <!-- Students -->
+          {{if eq .active 2}}
+          <li class="nav-item"><a class="nav-link active" href="/auth/admin/students/">
+              <i class="nav-icon fa fa-group"></i>
+              <p>学生信息管理</p>
+            </a></li>
+          {{else}}
+          <li class="nav-item"><a class="nav-link" href="/auth/admin/students/">
+              <i class="nav-icon fa fa-group"></i>
+              <p>学生信息管理</p>
+            </a></li>
+          {{end}}
+
+          <!-- Faculty -->
+          {{if eq .active 3}}
+          <li class="nav-item"><a class="nav-link active" href="/auth/admin/faculty/">
+              <i class="nav-icon fa fa-user"></i>
+              <p>教师信息管理</p>
+            </a></li>
+          {{else}}
+          <li class="nav-item"><a class="nav-link" href="/auth/admin/faculty/">
+              <i class="nav-icon fa fa-user"></i>
+              <p>教师信息管理</p>
+            </a></li>
+          {{end}}
+
+
         {{end}}
 
       </ul>

@@ -1,0 +1,45 @@
+{{define "paginator"}}
+<div class="dataTables_paginate paging_simple_numbers float-right">
+  <ul class="pagination">
+
+    {{if eq .First true}}
+    <li class="paginate_button page-item previous disabled">
+    {{else}}
+    <li class="paginate_button page-item previous">
+    {{end}}
+      <a href="{{.URL}}?p=1" class="page-link">&lt;&lt;</a>
+    </li>
+
+    {{if eq .First true}}
+    <li class="paginate_button page-item previous disabled">
+    {{else}}
+    <li class="paginate_button page-item previous">
+    {{end}}
+      <a href="{{.URL}}?p={{.Prev}}" class="page-link">&lt;</a>
+    </li>
+
+    {{range .Pages}}
+    <li class="paginate_button page-item previous">
+      <a href="{{$.URL}}?p={{.}}" class="page-link">{{.}}</a>
+    </li>
+    {{end}}
+
+    {{if eq .Last true}}
+    <li class="paginate_button page-item next disabled">
+    {{else}}
+    <li class="paginate_button page-item next">
+    {{end}}
+      <a href="{{.URL}}?p={{.Next}}" class="page-link">&gt;</a>
+    </li>
+
+    {{if eq .Last true}}
+    <li class="paginate_button page-item next disabled">
+    {{else}}
+    <li class="paginate_button page-item next">
+    {{end}}
+      <a href="{{.URL}}?p={{.Lastpg}}" class="page-link">&gt;&gt;</a>
+    </li>
+
+  </ul>
+</div>
+{{end}}

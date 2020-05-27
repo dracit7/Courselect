@@ -2,6 +2,8 @@ package db
 
 import (
 	"time"
+
+	"github.com/dracit7/Courselect/setting"
 )
 
 // Request information table.
@@ -26,4 +28,34 @@ func SelectCourse(uid string, cid int) {
 	}
 
 	db.Table("select_request").Create(&request)
+}
+
+// UnselectCourse adds a course to a student's select list.
+func UnselectCourse(uid string, cid int) {
+	db.Table("select_request").
+		Where("course = ? and student = ?", cid, uid).
+		Delete(Request{})
+}
+
+// GetSelectedCourses return all selected courses in a page.
+func GetSelectedCourses(id string, page int) []Course {
+	var courses []Course
+
+	db.Table("select_request").Where("student = ?", id).
+		Joins("join course on select_request.course = course.id").
+		Joins("join faculty on course.teacher = faculty.id").
+		Offset(page * setting.UI.Pagesize).
+		Limit(setting.UI.Pagesize).
+		Select("course.*, faculty.name as teacher_name").
+		Find(&courses)
+	return courses
+}
+
+// GetSelectedCourseNum return the number of selected
+// courses.
+func GetSelectedCourseNum(id string) int {
+	var count int
+
+	db.Table("select_request").Where("student = ?", id).Count(&count)
+	return count
 }

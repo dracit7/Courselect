@@ -60,3 +60,21 @@ func SelectPostHandler(c *gin.Context) {
 	sess.AddFlash("选课成功!", "info")
 	sess.Save()
 }
+
+// UnselectPostHandler handles POST requests to /auth/student/unselect.
+func UnselectPostHandler(c *gin.Context) {
+	sess := sessions.Default(c)
+	userid := sess.Get("username")
+	courseid := c.PostForm("course")
+
+	cid, err := strconv.Atoi(courseid)
+	if err != nil {
+		sess.AddFlash("退选失败: 非法的课程号", "error")
+		sess.Save()
+		return
+	}
+
+	db.UnselectCourse(userid.(string), cid)
+	sess.AddFlash("退选成功!", "info")
+	sess.Save()
+}

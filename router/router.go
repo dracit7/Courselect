@@ -49,6 +49,8 @@ func Setup() *gin.Engine {
 
 	stupage.GET("select", handler.SelectHandler)
 	stupage.POST("select", handler.SelectPostHandler)
+	stupage.GET("courses", handler.StudentCourseHandler)
+	stupage.POST("unselect", handler.UnselectPostHandler)
 
 	adminpage.GET("students", handler.StudentHandler)
 	adminpage.GET("faculty", handler.FacultyHandler)

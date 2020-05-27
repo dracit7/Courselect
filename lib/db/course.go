@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/dracit7/Courselect/setting"
 )
@@ -15,12 +14,12 @@ type Course struct {
 	TeacherName string
 	Credit      int
 	Capacity    int
-	Sdate       time.Time
-	Edate       time.Time
+	Sdate       int
+	Edate       int
 	Day         string
-	Stime       time.Time
-	Etime       time.Time
-	Valid       int
+	Stime       string
+	Etime       string
+	Valid       string
 }
 
 // TableName sets the corresponding table name of struct.
@@ -51,6 +50,15 @@ func GetSelectableCourses(page int) []Course {
 		Select("course.*, faculty.name as teacher_name").
 		Find(&courses)
 	return courses
+}
+
+// GetSelectableCourseNum return the number of selectable
+// courses.
+func GetSelectableCourseNum() int {
+	var count int
+
+	db.Table("course").Where("valid = ?", 1).Count(&count)
+	return count
 }
 
 // GetTeachingCourses return all courses submitted by target

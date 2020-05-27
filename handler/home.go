@@ -17,6 +17,9 @@ func HomeHandler(c *gin.Context) {
 	sess := sessions.Default(c)
 	userid := sess.Get("username")
 	usertype := sess.Get("usertype")
+	info := sess.Flashes("info")
+	errors := sess.Flashes("error")
+	sess.Save()
 
 	// Get pagination information from the request body.
 	coursepage, err := strconv.Atoi(c.DefaultQuery("cp", "0"))
@@ -30,6 +33,8 @@ func HomeHandler(c *gin.Context) {
 
 		c.HTML(http.StatusOK, "home_student.html", gin.H{
 			"active":    1,
+			"errors":    errors,
+			"info":      info,
 			"identity":  tSTUDENT,
 			"username":  db.GetStudentName(userid.(string)),
 			"profile":   db.GetStudent(userid.(string)),
@@ -42,6 +47,8 @@ func HomeHandler(c *gin.Context) {
 
 		c.HTML(http.StatusOK, "home_faculty.html", gin.H{
 			"active":    1,
+			"errors":    errors,
+			"info":      info,
 			"identity":  tFACULTY,
 			"username":  db.GetFacultyName(userid.(string)),
 			"profile":   db.GetFaculty(userid.(string)),
@@ -53,6 +60,8 @@ func HomeHandler(c *gin.Context) {
 
 		c.HTML(http.StatusOK, "dashboard.html", gin.H{
 			"active":   1,
+			"errors":   errors,
+			"info":     info,
 			"identity": tADMIN,
 			"username": setting.Admin.Username,
 		})

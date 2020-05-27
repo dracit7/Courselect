@@ -2,6 +2,8 @@ package db
 
 import (
 	"fmt"
+
+	"github.com/dracit7/Courselect/setting"
 )
 
 // Faculty information table.
@@ -51,4 +53,22 @@ func GetFaculty(id string) Faculty {
 
 	db.Where("id = ?", id).First(&faculty)
 	return faculty
+}
+
+// GetFacultys return all facultys in a page.
+func GetFacultys(page int) []Faculty {
+	var facultys []Faculty
+
+	db.Offset(page * setting.UI.Pagesize).
+		Limit(setting.UI.Pagesize).
+		Find(&facultys)
+	return facultys
+}
+
+// GetFacultyNum return the number of facultys.
+func GetFacultyNum() int {
+	var count int
+
+	db.Table("faculty").Count(&count)
+	return count
 }

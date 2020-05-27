@@ -47,7 +47,11 @@ func Setup() *gin.Engine {
 	facpage.Use(requiredIdentity("faculty"))
 	adminpage.Use(requiredIdentity("admin"))
 
+	stupage.GET("select", handler.SelectHandler)
+	stupage.POST("select", handler.SelectPostHandler)
+
 	adminpage.GET("students", handler.StudentHandler)
+	adminpage.GET("faculty", handler.FacultyHandler)
 
 	// Services requires login too.
 	service := router.Group("/services")

@@ -12,8 +12,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// StudentHandler handles GET requests to /auth/admin/students.
-func StudentHandler(c *gin.Context) {
+// FacultyHandler handles GET requests to /auth/admin/faculty.
+func FacultyHandler(c *gin.Context) {
 	sess := sessions.Default(c)
 	userid := sess.Get("username")
 	page, err := strconv.Atoi(c.DefaultQuery("p", "1"))
@@ -21,20 +21,20 @@ func StudentHandler(c *gin.Context) {
 		page = 0
 	}
 
-	students := db.GetStudents(page - 1)
-	num := db.GetStudentNum()
+	faculty := db.GetFacultys(page - 1)
+	num := db.GetFacultyNum()
 	info := sess.Flashes("info")
 	errors := sess.Flashes("error")
 	sess.Save()
 
-	c.HTML(http.StatusOK, "students.html", gin.H{
-		"active":     2,
+	c.HTML(http.StatusOK, "faculty.html", gin.H{
+		"active":     3,
 		"errors":     errors,
 		"info":       info,
 		"identity":   tADMIN,
 		"username":   userid,
-		"students":   students,
-		"studentnum": num,
+		"faculty":    faculty,
+		"facultynum": num,
 		"start":      (page-1)*setting.UI.Pagesize + 1,
 		"end":        page * setting.UI.Pagesize,
 		"paginator": paginate.MakePaginator(

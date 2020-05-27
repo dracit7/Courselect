@@ -16,3 +16,14 @@ type Request struct {
 func (s Request) TableName() string {
 	return "select_request"
 }
+
+// SelectCourse adds a course to a student's select list.
+func SelectCourse(uid string, cid int) {
+	request := &Request{
+		Course:  cid,
+		Student: uid,
+		Time:    time.Now(),
+	}
+
+	db.Table("select_request").Create(&request)
+}

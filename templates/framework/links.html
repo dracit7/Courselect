@@ -20,18 +20,29 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
 <script src="/static/js/adminlte-3.min.js"></script>
+<script src="/static/js/courselect.js"></script>
 
 <script>
-  const Toast = Swal.mixin({
-    showConfirmButton: false,
-    timer: 2000
-  });
+  $(document).ready(function(){
+    const Toast = Swal.mixin({
+      showConfirmButton: false,
+      timer: 2000
+    });
 
-  {{range .errors}}
-  Toast.fire({
-    type: 'warning',
-    title: '{{ . }}'
-  })
-  {{end}}
+    {{range .errors}}
+    Toast.fire({
+      type: 'warning',
+      title: '{{ . }}'
+    })
+    {{end}}
+
+    {{range .info}}
+    Toast.fire({
+      type: 'success',
+      title: '{{ . }}'
+    })
+    {{end}}
+  });
+</script>
 </script>
 {{end}}

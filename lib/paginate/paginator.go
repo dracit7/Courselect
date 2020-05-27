@@ -38,7 +38,7 @@ func MakePaginator(url string, curpage int, total int) *Paginator {
 	}
 
 	// Generate all pages.
-	for i := 0; i < setting.UI.Pagenum && i < lastpage; i++ {
+	for i := 0; i < setting.UI.Pagenum && i+curpage <= lastpage; i++ {
 		pages.Pages = append(pages.Pages, i+curpage)
 	}
 	return pages

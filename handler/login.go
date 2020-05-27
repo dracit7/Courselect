@@ -15,9 +15,13 @@ import (
 // LoginHandler handles GET requests to /login.
 func LoginHandler(c *gin.Context) {
 	sess := sessions.Default(c)
+	info := sess.Flashes("info")
+	errors := sess.Flashes("error")
+	sess.Save()
+
 	c.HTML(http.StatusOK, "login.html", gin.H{
-		"errors": sess.Flashes("error"),
-		"info":   sess.Flashes("info"),
+		"errors": errors,
+		"info":   info,
 	})
 }
 
@@ -72,10 +76,11 @@ func LoginPostHandler(c *gin.Context) {
 	))
 
 	// Save the username of current user to the session.
-	session := sessions.Default(c)
-	session.Set("username", username)
-	session.Set("usertype", usertype)
-	session.Save()
+	sess.Set("username", username)
+	sess.Set("usertype", usertype)
+	sess.Delete("error")
+	sess.Delete("info")
+	sess.Save()
 
 	// Redirect user to the referer.
 	c.Redirect(http.StatusFound, "/auth/home")

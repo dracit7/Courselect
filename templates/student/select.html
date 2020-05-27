@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-{{template "head" "教职工管理"}}
+{{template "head" "选课"}}
 
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
@@ -21,24 +21,31 @@
               <div class="card-header"></div>
               <div class="card-body">
                 <div class="row">
-                  <table id="faculty" class="table table-bordered table-hover">
+                  <table id="courses" class="table table-bordered table-hover"
+                   style="text-align: center;">
                     <thead><tr>
-                      <th>教工号</th>
-                      <th>姓名</th>
-                      <th>密码</th>
-                      <th>职称</th>
-                      <th>邮箱</th>
-                      <th>电话</th>
+                      <th>课程名</th>
+                      <th>任课教师</th>
+                      <th>学分</th>
+                      <th>已选人数</th>
+                      <th>上课周次</th>
+                      <th>上课时间</th>
+                      <th>操作</th>
                     </tr></thead>
                     <tbody>
-                      {{range .faculty}}
+                      {{range .courses}}
                       <tr>
-                        <td>{{.ID}}</td>
                         <td>{{.Name}}</td>
-                        <td>{{.Password}}</td>
-                        <td>{{.Position}}</td>
-                        <td>{{.Email}}</td>
-                        <td>{{.Phone}}</td>
+                        <td>{{.TeacherName}}</td>
+                        <td>{{.Credit}}</td>
+                        <td>0 / {{.Capacity}}</td>
+                        <td>{{.Sdate}}周 - {{.Edate}}周</td>
+                        <td>{{.Day}} {{.Stime}} - {{.Etime}}</td>
+                        <td>
+                          <a href="#" onclick="select_course('{{.ID}}')">
+                            选课
+                          </a>
+                        </td>
                       </tr>
                       {{end}}
                     </tbody>
@@ -48,7 +55,7 @@
 
                 <div class="row">
                   <div class="col-md-5 pt-1">
-                    正在查看第 {{.start}} 到 {{.end}} 个教职工，共有 {{.facultynum}} 个
+                    正在查看第 {{.start}} 到 {{.end}} 个课程，共有 {{.coursenum}} 个
                   </div>
                   <div class="col-md-7">
                     {{template "paginator" .paginator}}

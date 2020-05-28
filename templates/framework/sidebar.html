@@ -63,8 +63,20 @@
           {{else}}
           <li class="nav-item"><a class="nav-link" href="/auth/home/">
               <i class="nav-icon fa fa-user"></i>
-              <p></p>
-            </a>个人信息页面</li>
+              <p>个人信息页面</p>
+            </a></li>
+          {{end}}
+
+          {{if eq .active 2}}
+          <li class="nav-item"><a class="nav-link active" href="/auth/faculty/courses">
+              <i class="nav-icon fa fa-table"></i>
+              <p>课程管理页面</p>
+            </a></li>
+          {{else}}
+          <li class="nav-item"><a class="nav-link" href="/auth/faculty/courses">
+              <i class="nav-icon fa fa-table"></i>
+              <p>课程管理页面</p>
+            </a></li>
           {{end}}
 
         <!-- Admin -->

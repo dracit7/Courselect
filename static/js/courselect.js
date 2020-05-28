@@ -10,3 +10,13 @@ function unselect_course(id) {
     course: id, 
   });
 }
+
+function list_student(id) {
+  window.location.replace("/auth/studentlist?id=" + id);
+}
+
+function delete_course(id) {
+  $.post("/auth/faculty/coursedelete", {
+    course: id, 
+  });
+}

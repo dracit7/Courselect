@@ -42,9 +42,10 @@
                         <td>{{.Sdate}}周 - {{.Edate}}周</td>
                         <td>{{.Day}} {{.Stime}} - {{.Etime}}</td>
                         <td>
-                          <a href="#" onclick="select_course('{{.ID}}')">
-                            选课
-                          </a>
+                          <div class="btn-group btn-block">
+                            <button class="btn btn-outline-primary p-0"
+                            onclick="select_course('{{.ID}}')">选课</button>
+                          </div>
                         </td>
                       </tr>
                       {{end}}

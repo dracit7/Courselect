@@ -59,6 +59,9 @@ func SelectPostHandler(c *gin.Context) {
 	db.SelectCourse(userid.(string), cid)
 	sess.AddFlash("选课成功!", "info")
 	sess.Save()
+
+	c.Redirect(http.StatusFound, "/auth/student/select")
+	return
 }
 
 // UnselectPostHandler handles POST requests to /auth/student/unselect.
@@ -77,4 +80,7 @@ func UnselectPostHandler(c *gin.Context) {
 	db.UnselectCourse(userid.(string), cid)
 	sess.AddFlash("退选成功!", "info")
 	sess.Save()
+
+	c.Redirect(http.StatusFound, "/auth/student/courses")
+	return
 }

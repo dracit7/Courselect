@@ -52,6 +52,10 @@ func Setup() *gin.Engine {
 	stupage.GET("courses", handler.StudentCourseHandler)
 	stupage.POST("unselect", handler.UnselectPostHandler)
 
+	facpage.GET("courses", handler.FacultyCourseHandler)
+	facpage.POST("courseapply", handler.CreateCourseApply)
+	facpage.POST("coursedelete", handler.DeleteCourseApply)
+
 	adminpage.GET("students", handler.StudentHandler)
 	adminpage.GET("faculty", handler.FacultyHandler)
 

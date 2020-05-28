@@ -20,7 +20,7 @@ func requiredLoggedIn() gin.HandlerFunc {
 		user := sess.Get("username")
 		if user == nil {
 			sess.AddFlash(
-				"You need to login before accessing this page.",
+				"你需要登录才能访问本页面",
 				"error",
 			)
 			sess.Save()
@@ -42,7 +42,7 @@ func requiredIdentity(ident string) gin.HandlerFunc {
 		user := sess.Get("usertype")
 		if user != ident {
 			sess.AddFlash(
-				fmt.Sprintf("You need to be %s to access this page.", ident),
+				fmt.Sprintf("要访问此页面，你需要是%s", ident),
 				"error",
 			)
 			sess.Save()

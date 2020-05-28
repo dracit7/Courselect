@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+{{template "head" "课程管理"}}
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {{template "navbar" .}}
+    {{template "sidebar" .}}
+
+    <div class="content-wrapper">
+
+      <section class="content-header">
+      </section>
+      
+      <section class="content">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card" style="height: 100%;">
+
+              <div class="card-header p-2">
+                <div class="pull-right">
+                  <button class="btn btn-success"
+                  data-toggle="modal" data-target="#addcourse">
+                    创建课程申请
+                  </button>
+                </div>
+              </div>
+
+              <div class="card-body table-responsive">
+                <div class="row">
+                  <table class="table table-bordered table-hover"
+                   style="text-align: center;">
+                    <thead><tr>
+                      <th>课程名</th>
+                      <th>学分</th>
+                      <th>已选人数</th>
+                      <th>上课周次</th>
+                      <th>上课时间</th>
+                      <th>审核状态</th>
+                      <th>操作</th>
+                    </tr></thead>
+                    <tbody>
+                      {{range .courses}}
+                      <tr>
+                        <td>{{.Name}}</td>
+                        <td>{{.Credit}}</td>
+                        <td>0 / {{.Capacity}}</td>
+                        <td>{{.Sdate}}周 - {{.Edate}}周</td>
+                        <td>{{.Day}} {{.Stime}} - {{.Etime}}</td>
+                        <td>{{.Valid}}</td>
+                        <td>
+                          <div class="btn-group btn-block">
+                            <button class="btn btn-outline-primary p-0"
+                            onclick="list_student('{{.ID}}')">查看学生列表</button>
+                            <button class="btn btn-outline-primary p-0"
+                            onclick="delete_course('{{.ID}}')">删除</button>
+                          </div>
+                      </td>
+                      </tr>
+                      {{end}}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Student table -->
+
+                <div class="row">
+                  <div class="col-md-5 pt-1">
+                    正在查看第 {{.start}} 到 {{.end}} 个课程，共有 {{.coursenum}} 个
+                  </div>
+                  <div class="col-md-7">
+                    {{template "paginator" .paginator}}
+                  </div>
+                </div>
+                <!-- Pagination -->
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="addcourse" aria-modal="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">创建课程申请</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/auth/faculty/courseapply" method="post" id="apply">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>课程名 <small>(不超过15个汉字)</small></label>
+                        <input type="text" class="form-control" name="name">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>学分</label>
+                        <select name="credit" class="form-control">
+                          <option value="1">1</option>
+                          <option value="1.5">1.5</option>
+                          <option value="2">2</option>
+                          <option value="2.5">2.5</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5.5">5.5</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>开始周次</label>
+                        <select name="sdate" class="form-control">
+                          <option value="1">第一周</option>
+                          <option value="4">第四周</option>
+                          <option value="8">第八周</option>
+                          <option value="12">第十二周</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>上课时间</label>
+                        <select name="stime" class="form-control">
+                          <option value="08:00:00">上午一二节</option>
+                          <option value="10:10:00">上午三四节</option>
+                          <option value="14:00:00">下午一二节</option>
+                          <option value="15:50:00">下午三四节</option>
+                          <option value="18:30:00">晚上一二节</option>
+                          <option value="20:20:00">晚上三四节</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>最大人数</label>
+                        <select name="capacity" class="form-control">
+                          <option value="30">30人 (小教室)</option>
+                          <option value="60">60人 (阶梯教室)</option>
+                          <option value="100">100人 (大教室)</option>
+                          <option value="200">200人 (大阶梯教室)</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>课时数</label>
+                        <select name="dategap" class="form-control">
+                          <option value="4">8</option>
+                          <option value="8">16</option>
+                          <option value="12">24</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>周几上课</label>
+                        <select name="day" class="form-control">
+                          <option value="周一">周一</option>
+                          <option value="周二">周二</option>
+                          <option value="周三">周三</option>
+                          <option value="周四">周四</option>
+                          <option value="周五">周五</option>
+                          <!-- <option value="周六">周六</option>
+                          <option value="周日">周日</option> -->
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer p-3">
+                <button type="submit" class="btn btn-primary" form="apply">提交申请</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+      <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    {{template "footer" .}}
+    <div class="control-sidebar-bg"></div>
+
+  </div>
+  <!-- ./wrapper -->
+
+  {{template "scripts" .}}
+
+</body>
+
+</html>

@@ -11,7 +11,7 @@ type Course struct {
 	ID          int
 	Name        string
 	Teacher     string
-	TeacherName string
+	TeacherName string `gorm:"-"`
 	Credit      int
 	Capacity    int
 	Sdate       int
@@ -71,4 +71,24 @@ func GetTeachingCourses(teacher string, page int) []Course {
 		Limit(setting.UI.Pagesize).
 		Select("*").Find(&courses)
 	return courses
+}
+
+// GetTeachingCourseNum return the number of teaching courses.
+func GetTeachingCourseNum(teacher string) int {
+	var count int
+
+	db.Table("course").Where("teacher = ?", teacher).Count(&count)
+	return count
+}
+
+// CreateCourse add a new course to the database.
+func CreateCourse(course *Course) {
+	db.Table("course").Create(course)
+}
+
+// DeleteCourse delete a course from the database.
+func DeleteCourse(teacher string, cid int) {
+	db.Table("course").
+		Where("teacher = ? and id = ?", teacher, cid).
+		Delete(Course{})
 }

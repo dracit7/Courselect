@@ -18,7 +18,7 @@ type Paginator struct {
 // MakePaginator returns a paginator which could be
 // passed to the frontend.
 func MakePaginator(url string, curpage int, total int) *Paginator {
-	lastpage := total / setting.UI.Pagesize
+	lastpage := total/setting.UI.Pagesize + 1
 	pages := &Paginator{
 		Pages:  make([]int, 0),
 		First:  false,
@@ -33,7 +33,7 @@ func MakePaginator(url string, curpage int, total int) *Paginator {
 	if curpage == 1 {
 		pages.First = true
 	}
-	if curpage == lastpage {
+	if curpage >= lastpage {
 		pages.Last = true
 	}
 

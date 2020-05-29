@@ -48,6 +48,12 @@ func GetSelectedCourses(id string, page int) []Course {
 		Limit(setting.UI.Pagesize).
 		Select("course.*, faculty.name as teacher_name").
 		Find(&courses)
+
+	for i, course := range courses {
+		db.Table("select_request").
+			Where("course = ?", course.ID).
+			Count(&courses[i].SelectNum)
+	}
 	return courses
 }
 

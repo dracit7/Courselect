@@ -14,6 +14,7 @@ type Course struct {
 	TeacherName string `gorm:"-"`
 	Credit      int
 	Capacity    int
+	SelectNum   int `gorm:"-"`
 	Sdate       int
 	Edate       int
 	Day         string
@@ -49,6 +50,12 @@ func GetSelectableCourses(page int) []Course {
 		Limit(setting.UI.Pagesize).
 		Select("course.*, faculty.name as teacher_name").
 		Find(&courses)
+
+	for i, course := range courses {
+		db.Table("select_request").
+			Where("course = ?", course.ID).
+			Count(&courses[i].SelectNum)
+	}
 	return courses
 }
 
@@ -70,6 +77,12 @@ func GetTeachingCourses(teacher string, page int) []Course {
 		Offset(page * setting.UI.Pagesize).
 		Limit(setting.UI.Pagesize).
 		Select("*").Find(&courses)
+
+	for i, course := range courses {
+		db.Table("select_request").
+			Where("course = ?", course.ID).
+			Count(&courses[i].SelectNum)
+	}
 	return courses
 }
 

@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/dracit7/Courselect/lib/db"
 
@@ -15,7 +16,7 @@ import (
 // SelectHandler handles GET requests to /auth/student/select.
 func SelectHandler(c *gin.Context) {
 	sess := sessions.Default(c)
-	userid := sess.Get("username")
+	userid := sess.Get("username").(string)
 	ident := sess.Get("usertype").(string)
 	page, err := strconv.Atoi(c.DefaultQuery("p", "1"))
 	if err != nil {
@@ -24,6 +25,13 @@ func SelectHandler(c *gin.Context) {
 
 	courses := db.GetSelectableCourses(page - 1)
 	num := db.GetSelectableCourseNum()
+	timerange := db.GetTimeRange(userid)
+	canselect := false
+	if timerange.Etime.Sub(time.Now()).Seconds() > 0 &&
+		time.Now().Sub(timerange.Stime).Seconds() > 0 {
+		canselect = true
+	}
+
 	info := sess.Flashes("info")
 	errors := sess.Flashes("error")
 	sess.Save()
@@ -36,6 +44,8 @@ func SelectHandler(c *gin.Context) {
 		"username":  userid,
 		"courses":   courses,
 		"coursenum": num,
+		"timerange": timerange,
+		"canselect": canselect,
 		"start":     (page-1)*setting.UI.Pagesize + 1,
 		"end":       page * setting.UI.Pagesize,
 		"paginator": paginate.MakePaginator(

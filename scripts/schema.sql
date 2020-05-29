@@ -77,7 +77,7 @@ create table select_result (
 create table select_time (
   id      int primary key auto_increment,
   major   int,
-  stime   datetime,
-  etime   datetime,
+  stime   datetime not null,
+  etime   datetime not null,
   foreign key (major) references major(id)
 );

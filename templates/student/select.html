@@ -18,8 +18,17 @@
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header"></div>
               <div class="card-body">
+                <div class="row" style="text-align: center;">
+                  <div class="col-md-12">
+                    <h5>你所在专业的选课时段是：<b>{{.timerange.Stime}}</b> - <b>{{.timerange.Etime}}</b></h5>
+                    {{if eq .canselect true}}
+                    <h5><small>请点击选课按钮进行选课</small></h5>
+                    {{else}}
+                    <h5><small>现在不在选课时段内!</small></h5>
+                    {{end}}
+                  </div>
+                </div>
                 <div class="row">
                   <table id="courses" class="table table-bordered table-hover"
                    style="text-align: center;">
@@ -43,8 +52,13 @@
                         <td>{{.Day}} {{.Stime}} - {{.Etime}}</td>
                         <td>
                           <div class="btn-group btn-block">
+                            {{if eq $.canselect true}}
                             <button class="btn btn-outline-primary p-0"
                             onclick="select_course('{{.ID}}')">选课</button>
+                            {{else}}
+                            <button class="btn btn-outline-danger disabled p-0"
+                            style="cursor: not-allowed">选课</button>
+                            {{end}}
                           </div>
                         </td>
                       </tr>

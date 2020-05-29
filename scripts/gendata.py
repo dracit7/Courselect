@@ -60,10 +60,14 @@ majors = [
   '临床医学',
   '土木工程',
 ]
+major_cnt = 1
 for major in majors:
   f.write(
-    "insert into major (name) values ('%s');\n" % major
+    "insert into major (name) values ('%s');\n" % major +
+    "insert into select_time (major, stime, etime) values (%d, '%s', '%s');\n"
+    % (major_cnt, '2020-5-1 00:00:00', '2020-6-1 00:00:00')
   )  
+  major_cnt += 1
 f.write('\n')
 
 # Student information

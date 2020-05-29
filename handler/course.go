@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/dracit7/Courselect/lib/db"
 	"github.com/dracit7/Courselect/lib/log"
@@ -34,6 +35,13 @@ func StudentCourseHandler(c *gin.Context) {
 
 	courses := db.GetSelectedCourses(userid, page-1)
 	num := db.GetSelectedCourseNum(userid)
+	timerange := db.GetTimeRange(userid)
+	canselect := false
+	if timerange.Etime.Sub(time.Now()).Seconds() > 0 &&
+		time.Now().Sub(timerange.Stime).Seconds() > 0 {
+		canselect = true
+	}
+
 	info := sess.Flashes("info")
 	errors := sess.Flashes("error")
 	sess.Save()
@@ -46,6 +54,8 @@ func StudentCourseHandler(c *gin.Context) {
 		"username":  userid,
 		"courses":   courses,
 		"coursenum": num,
+		"timerange": timerange,
+		"canselect": canselect,
 		"start":     (page-1)*setting.UI.Pagesize + 1,
 		"end":       page * setting.UI.Pagesize,
 		"paginator": paginate.MakePaginator(
@@ -98,6 +108,12 @@ func FacultyCourseHandler(c *gin.Context) {
 
 	courses := db.GetTeachingCourses(userid, page-1)
 	num := db.GetTeachingCourseNum(userid)
+	ddl := db.GetApplyDeadline()
+	beforeddl := true
+	if time.Now().Sub(ddl).Seconds() > 0 {
+		beforeddl = false
+	}
+
 	info := sess.Flashes("info")
 	errors := sess.Flashes("error")
 	sess.Save()
@@ -110,6 +126,8 @@ func FacultyCourseHandler(c *gin.Context) {
 		"username":  userid,
 		"courses":   courses,
 		"coursenum": num,
+		"ddl":       ddl,
+		"beforeddl": beforeddl,
 		"start":     (page-1)*setting.UI.Pagesize + 1,
 		"end":       page * setting.UI.Pagesize,
 		"paginator": paginate.MakePaginator(

@@ -22,14 +22,24 @@
 
               <div class="card-header p-2">
                 <div class="pull-right">
+                  {{if eq .beforeddl true}}
                   <button class="btn btn-success"
                   data-toggle="modal" data-target="#addcourse">
+                  {{else}}
+                  <button class="btn btn-danger disabled"
+                  style="cursor: not-allowed;">
+                  {{end}}
                     创建课程申请
                   </button>
                 </div>
               </div>
 
               <div class="card-body table-responsive">
+                <div class="row" style="text-align: center;">
+                  <div class="col-md-12">
+                    <h5>提交创建课程申请或取消申请的期限为：<b>{{.ddl}}</b></h5>
+                  </div>
+                </div>
                 <div class="row">
                   <table class="table table-bordered table-hover"
                    style="text-align: center;">
@@ -52,13 +62,20 @@
                         <td>{{.Day}} {{.Stime}} - {{.Etime}}</td>
                         <td>{{.Valid}}</td>
                         <td>
+                          {{if eq $.beforeddl true}}
                           <div class="btn-group btn-block">
                             <button class="btn btn-outline-primary p-0"
                             onclick="list_student('{{.ID}}')">查看学生列表</button>
                             <button class="btn btn-outline-primary p-0"
                             onclick="delete_course('{{.ID}}')">删除</button>
                           </div>
-                      </td>
+                          {{else}}
+                          <div class="btn-group btn-block">
+                            <button class="btn btn-outline-primary p-0"
+                            onclick="list_student('{{.ID}}')">查看学生列表</button>
+                          </div>
+                          {{end}}
+                        </td>
                       </tr>
                       {{end}}
                     </tbody>

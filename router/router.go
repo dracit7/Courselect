@@ -58,6 +58,8 @@ func Setup() *gin.Engine {
 
 	adminpage.GET("students", handler.StudentHandler)
 	adminpage.GET("faculty", handler.FacultyHandler)
+	adminpage.GET("applies", handler.AdminCourseHandler)
+	adminpage.POST("coursepermit", handler.PermitCourseApply)
 
 	// Services requires login too.
 	service := router.Group("/services")

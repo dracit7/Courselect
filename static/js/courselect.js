@@ -20,3 +20,9 @@ function delete_course(id) {
     course: id, 
   });
 }
+
+function permit_course(id) {
+  $.post("/auth/admin/coursepermit", {
+    course: id, 
+  });
+}

@@ -81,6 +81,28 @@ func GetTeachingCourseNum(teacher string) int {
 	return count
 }
 
+// GetAppliedCourses return all applied courses in a page.
+func GetAppliedCourses(page int) []Course {
+	var courses []Course
+
+	db.Where("valid = ?", 2).
+		Joins("join faculty on course.teacher = faculty.id").
+		Offset(page * setting.UI.Pagesize).
+		Limit(setting.UI.Pagesize).
+		Select("course.*, faculty.name as teacher_name").
+		Find(&courses)
+	return courses
+}
+
+// GetAppliedCourseNum return the number of applied
+// courses.
+func GetAppliedCourseNum() int {
+	var count int
+
+	db.Table("course").Where("valid = ?", 2).Count(&count)
+	return count
+}
+
 // CreateCourse add a new course to the database.
 func CreateCourse(course *Course) {
 	db.Table("course").Create(course)
@@ -91,4 +113,11 @@ func DeleteCourse(teacher string, cid int) {
 	db.Table("course").
 		Where("teacher = ? and id = ?", teacher, cid).
 		Delete(Course{})
+}
+
+// PermitCourse delete a course from the database.
+func PermitCourse(cid int) {
+	db.Table("course").
+		Where("id = ?", cid).
+		Update("valid", 1)
 }

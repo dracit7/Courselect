@@ -45,10 +45,10 @@ func LoginPostHandler(c *gin.Context) {
 	case "admin":
 		if username != setting.Admin.Username ||
 			password != setting.Admin.Password {
-			err = fmt.Errorf("wrong admin username or password")
+			err = fmt.Errorf("用户名或密码不正确")
 		}
 	default:
-		err = fmt.Errorf("identity not specified")
+		err = fmt.Errorf("无效的身份信息")
 	}
 
 	// Add a warning to log if someone attempted to login

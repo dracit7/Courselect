@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+{{template "head" "开课申请审批"}}
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    {{template "navbar" .}}
+    {{template "sidebar" .}}
+
+    <div class="content-wrapper">
+
+      <section class="content-header">
+      </section>
+      
+      <section class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card" style="height: 100%;">
+              <div class="card-header"></div>
+              <div class="card-body table-responsive">
+                <div class="row">
+                  <table class="table table-bordered table-hover"
+                   style="text-align: center;">
+                    <thead><tr>
+                      <th>课程名</th>
+                      <th>任课教师</th>
+                      <th>学分</th>
+                      <th>已选人数</th>
+                      <th>上课周次</th>
+                      <th>上课时间</th>
+                      <th>操作</th>
+                    </tr></thead>
+                    <tbody>
+                      {{range .courses}}
+                      <tr>
+                        <td>{{.Name}}</td>
+                        <td>{{.TeacherName}}</td>
+                        <td>{{.Credit}}</td>
+                        <td>0 / {{.Capacity}}</td>
+                        <td>{{.Sdate}}周 - {{.Edate}}周</td>
+                        <td>{{.Day}} {{.Stime}} - {{.Etime}}</td>
+                        <td>
+                          <div class="btn-group btn-block">
+                            <button class="btn btn-outline-primary p-0"
+                            onclick="permit_course('{{.ID}}')">批准开课</button>
+                          </div>
+                        </td>
+                      </tr>
+                      {{end}}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Student table -->
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    {{template "footer" .}}
+    <div class="control-sidebar-bg"></div>
+
+  </div>
+  <!-- ./wrapper -->
+
+  {{template "scripts" .}}
+
+</body>
+
+</html>

@@ -55,6 +55,37 @@ func StudentCourseHandler(c *gin.Context) {
 	})
 }
 
+// AdminCourseHandler handles GET requests to /auth/admin/applies.
+func AdminCourseHandler(c *gin.Context) {
+	sess := sessions.Default(c)
+	userid := sess.Get("username").(string)
+	page, err := strconv.Atoi(c.DefaultQuery("p", "1"))
+	if err != nil {
+		page = 0
+	}
+
+	courses := db.GetAppliedCourses(page - 1)
+	num := db.GetAppliedCourseNum()
+	info := sess.Flashes("info")
+	errors := sess.Flashes("error")
+	sess.Save()
+
+	c.HTML(http.StatusOK, "applies.html", gin.H{
+		"active":    4,
+		"errors":    errors,
+		"info":      info,
+		"identity":  tADMIN,
+		"username":  userid,
+		"courses":   courses,
+		"coursenum": num,
+		"start":     (page-1)*setting.UI.Pagesize + 1,
+		"end":       page * setting.UI.Pagesize,
+		"paginator": paginate.MakePaginator(
+			c.Request.URL.Path, page, num,
+		),
+	})
+}
+
 // FacultyCourseHandler handles GET requests to /auth/faculty/courses.
 func FacultyCourseHandler(c *gin.Context) {
 	sess := sessions.Default(c)
@@ -157,5 +188,25 @@ func DeleteCourseApply(c *gin.Context) {
 	sess.Save()
 
 	c.Redirect(http.StatusFound, "/auth/faculty/courses")
+	return
+}
+
+// PermitCourseApply handles POST requests to /auth/admin/coursepermit.
+func PermitCourseApply(c *gin.Context) {
+	sess := sessions.Default(c)
+	courseid := c.PostForm("course")
+
+	cid, err := strconv.Atoi(courseid)
+	if err != nil {
+		sess.AddFlash("审批失败: 非法的课程号", "error")
+		sess.Save()
+		return
+	}
+
+	db.PermitCourse(cid)
+	sess.AddFlash("审批完成!", "info")
+	sess.Save()
+
+	c.Redirect(http.StatusFound, "/auth/admin/applies")
 	return
 }

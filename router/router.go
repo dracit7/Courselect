@@ -37,6 +37,7 @@ func Setup() *gin.Engine {
 	auth.Use(requiredLoggedIn())
 
 	auth.GET("/home", handler.HomeHandler)
+	auth.GET("/studentlist", handler.StudentListHandler)
 
 	// Identity-specific pages.
 	stupage := auth.Group("/student")

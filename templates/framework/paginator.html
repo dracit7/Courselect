@@ -7,7 +7,7 @@
     {{else}}
     <li class="paginate_button page-item previous">
     {{end}}
-      <a href="{{.URL}}?p=1" class="page-link">&lt;&lt;</a>
+      <a href="{{.URL}}p=1" class="page-link">&lt;&lt;</a>
     </li>
 
     {{if eq .First true}}
@@ -15,12 +15,12 @@
     {{else}}
     <li class="paginate_button page-item previous">
     {{end}}
-      <a href="{{.URL}}?p={{.Prev}}" class="page-link">&lt;</a>
+      <a href="{{.URL}}p={{.Prev}}" class="page-link">&lt;</a>
     </li>
 
     {{range .Pages}}
     <li class="paginate_button page-item previous">
-      <a href="{{$.URL}}?p={{.}}" class="page-link">{{.}}</a>
+      <a href="{{$.URL}}p={{.}}" class="page-link">{{.}}</a>
     </li>
     {{end}}
 
@@ -29,7 +29,7 @@
     {{else}}
     <li class="paginate_button page-item next">
     {{end}}
-      <a href="{{.URL}}?p={{.Next}}" class="page-link">&gt;</a>
+      <a href="{{.URL}}p={{.Next}}" class="page-link">&gt;</a>
     </li>
 
     {{if eq .Last true}}
@@ -37,7 +37,7 @@
     {{else}}
     <li class="paginate_button page-item next">
     {{end}}
-      <a href="{{.URL}}?p={{.Lastpg}}" class="page-link">&gt;&gt;</a>
+      <a href="{{.URL}}p={{.Lastpg}}" class="page-link">&gt;&gt;</a>
     </li>
 
   </ul>

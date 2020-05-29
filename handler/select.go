@@ -16,6 +16,7 @@ import (
 func SelectHandler(c *gin.Context) {
 	sess := sessions.Default(c)
 	userid := sess.Get("username")
+	ident := sess.Get("usertype").(string)
 	page, err := strconv.Atoi(c.DefaultQuery("p", "1"))
 	if err != nil {
 		page = 0
@@ -31,14 +32,14 @@ func SelectHandler(c *gin.Context) {
 		"active":    2,
 		"errors":    errors,
 		"info":      info,
-		"identity":  tSTUDENT,
+		"identity":  identity[ident],
 		"username":  userid,
 		"courses":   courses,
 		"coursenum": num,
 		"start":     (page-1)*setting.UI.Pagesize + 1,
 		"end":       page * setting.UI.Pagesize,
 		"paginator": paginate.MakePaginator(
-			c.Request.URL.Path, page, num,
+			c.Request.URL.Path+"?", page, num,
 		),
 	})
 }

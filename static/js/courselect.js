@@ -12,7 +12,7 @@ function unselect_course(id) {
 }
 
 function list_student(id) {
-  window.location.replace("/auth/studentlist?id=" + id);
+  window.location.replace("/auth/studentlist?cid=" + id);
 }
 
 function delete_course(id) {

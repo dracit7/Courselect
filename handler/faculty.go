@@ -16,6 +16,7 @@ import (
 func FacultyHandler(c *gin.Context) {
 	sess := sessions.Default(c)
 	userid := sess.Get("username")
+	ident := sess.Get("usertype").(string)
 	page, err := strconv.Atoi(c.DefaultQuery("p", "1"))
 	if err != nil {
 		page = 0
@@ -31,14 +32,14 @@ func FacultyHandler(c *gin.Context) {
 		"active":     3,
 		"errors":     errors,
 		"info":       info,
-		"identity":   tADMIN,
+		"identity":   identity[ident],
 		"username":   userid,
 		"faculty":    faculty,
 		"facultynum": num,
 		"start":      (page-1)*setting.UI.Pagesize + 1,
 		"end":        page * setting.UI.Pagesize,
 		"paginator": paginate.MakePaginator(
-			c.Request.URL.Path, page, num,
+			c.Request.URL.Path+"?", page, num,
 		),
 	})
 }

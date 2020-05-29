@@ -16,7 +16,7 @@ import (
 func HomeHandler(c *gin.Context) {
 	sess := sessions.Default(c)
 	userid := sess.Get("username")
-	usertype := sess.Get("usertype")
+	usertype := sess.Get("usertype").(string)
 	info := sess.Flashes("info")
 	errors := sess.Flashes("error")
 	sess.Save()
@@ -35,7 +35,7 @@ func HomeHandler(c *gin.Context) {
 			"active":    1,
 			"errors":    errors,
 			"info":      info,
-			"identity":  tSTUDENT,
+			"identity":  identity[usertype],
 			"username":  db.GetStudentName(userid.(string)),
 			"profile":   db.GetStudent(userid.(string)),
 			"courses":   []db.Course{},
@@ -49,7 +49,7 @@ func HomeHandler(c *gin.Context) {
 			"active":    1,
 			"errors":    errors,
 			"info":      info,
-			"identity":  tFACULTY,
+			"identity":  identity[usertype],
 			"username":  db.GetFacultyName(userid.(string)),
 			"profile":   db.GetFaculty(userid.(string)),
 			"courses":   courses,
@@ -62,7 +62,7 @@ func HomeHandler(c *gin.Context) {
 			"active":   1,
 			"errors":   errors,
 			"info":     info,
-			"identity": tADMIN,
+			"identity": identity[usertype],
 			"username": setting.Admin.Username,
 		})
 

@@ -80,3 +80,28 @@ func GetStudentNum() int {
 	db.Table("student").Count(&count)
 	return count
 }
+
+// GetStudentsInCourse return all students in a page.
+func GetStudentsInCourse(cid int, page int) []Student {
+	var students []Student
+
+	db.Joins("join major on major.id = student.major").
+		Joins("join select_request on select_request.student = student.id").
+		Where("select_request.course = ?", cid).
+		Offset(page * setting.UI.Pagesize).
+		Limit(setting.UI.Pagesize).
+		Select("student.*, major.name as major_name").
+		Find(&students)
+	return students
+}
+
+// GetStudentInCourseNum return the number of students.
+func GetStudentInCourseNum(cid int) int {
+	var count int
+
+	db.Table("student").
+		Joins("join select_request on select_request.student = student.id").
+		Where("select_request.course = ?", cid).
+		Count(&count)
+	return count
+}

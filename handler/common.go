@@ -1,7 +1,7 @@
 package handler
 
-const (
-	tSTUDENT = 0
-	tFACULTY = 1
-	tADMIN   = 2
-)
+var identity = map[string]int{
+	"student": 0,
+	"faculty": 1,
+	"admin":   2,
+}

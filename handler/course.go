@@ -5,10 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/dracit7/Courselect/lib/log"
-
 	"github.com/dracit7/Courselect/lib/db"
-
+	"github.com/dracit7/Courselect/lib/log"
 	"github.com/dracit7/Courselect/lib/paginate"
 	"github.com/dracit7/Courselect/setting"
 	"github.com/gin-gonic/contrib/sessions"
@@ -28,6 +26,7 @@ var etime = map[string]string{
 func StudentCourseHandler(c *gin.Context) {
 	sess := sessions.Default(c)
 	userid := sess.Get("username").(string)
+	ident := sess.Get("usertype").(string)
 	page, err := strconv.Atoi(c.DefaultQuery("p", "1"))
 	if err != nil {
 		page = 0
@@ -43,14 +42,14 @@ func StudentCourseHandler(c *gin.Context) {
 		"active":    3,
 		"errors":    errors,
 		"info":      info,
-		"identity":  tSTUDENT,
+		"identity":  identity[ident],
 		"username":  userid,
 		"courses":   courses,
 		"coursenum": num,
 		"start":     (page-1)*setting.UI.Pagesize + 1,
 		"end":       page * setting.UI.Pagesize,
 		"paginator": paginate.MakePaginator(
-			c.Request.URL.Path, page, num,
+			c.Request.URL.Path+"?", page, num,
 		),
 	})
 }
@@ -59,6 +58,7 @@ func StudentCourseHandler(c *gin.Context) {
 func AdminCourseHandler(c *gin.Context) {
 	sess := sessions.Default(c)
 	userid := sess.Get("username").(string)
+	ident := sess.Get("usertype").(string)
 	page, err := strconv.Atoi(c.DefaultQuery("p", "1"))
 	if err != nil {
 		page = 0
@@ -74,14 +74,14 @@ func AdminCourseHandler(c *gin.Context) {
 		"active":    4,
 		"errors":    errors,
 		"info":      info,
-		"identity":  tADMIN,
+		"identity":  identity[ident],
 		"username":  userid,
 		"courses":   courses,
 		"coursenum": num,
 		"start":     (page-1)*setting.UI.Pagesize + 1,
 		"end":       page * setting.UI.Pagesize,
 		"paginator": paginate.MakePaginator(
-			c.Request.URL.Path, page, num,
+			c.Request.URL.Path+"?", page, num,
 		),
 	})
 }
@@ -90,6 +90,7 @@ func AdminCourseHandler(c *gin.Context) {
 func FacultyCourseHandler(c *gin.Context) {
 	sess := sessions.Default(c)
 	userid := sess.Get("username").(string)
+	ident := sess.Get("usertype").(string)
 	page, err := strconv.Atoi(c.DefaultQuery("p", "1"))
 	if err != nil {
 		page = 0
@@ -105,14 +106,14 @@ func FacultyCourseHandler(c *gin.Context) {
 		"active":    2,
 		"errors":    errors,
 		"info":      info,
-		"identity":  tFACULTY,
+		"identity":  identity[ident],
 		"username":  userid,
 		"courses":   courses,
 		"coursenum": num,
 		"start":     (page-1)*setting.UI.Pagesize + 1,
 		"end":       page * setting.UI.Pagesize,
 		"paginator": paginate.MakePaginator(
-			c.Request.URL.Path, page, num,
+			c.Request.URL.Path+"?", page, num,
 		),
 	})
 }
